@@ -14,6 +14,7 @@ public class Email {
 	Utilities utils = new Utilities();
 	private String body;
 	private ArrayList<String> emailAddresses;
+	private boolean chatFormat;
 	/**
 	 * Empty Constructor
 	 */
@@ -27,16 +28,26 @@ public class Email {
 	 * @return String of the email to be sent
 	 * @throws IOException - In case of StringWriter not being initialized
 	 */
-	public String createEmail(ArrayList<String> emailAddresses, String body) throws IOException {
+	public String createMessage(ArrayList<String> emailAddresses, String body, boolean chatFormat) throws IOException {
 		String email = "";
-		email += Constants.CONNECTION_HEADER + '\n';
-		for(String emailAddress : emailAddresses) {
-		email += Constants.PREFIX_TO + emailAddress + "\n";
+		if (chatFormat == false) {
+			email += Constants.EMAIL_CONNECTION_HEADER + '\n';
+			for(String emailAddress : emailAddresses) {
+			email += Constants.PREFIX_TO + emailAddress + "\n";
+			}
+			email += '\n';
+			email += body + "\n\n";
+			email += Constants.DISCONNECT + '\n';
+			return email;
+		} else {
+			email += Constants.CHAT_CONNECTION_HEADER + '\n';
+			for(String emailAddress : emailAddresses) {
+			email += '<' + emailAddress+ '>';
+			email += '(' + body + ')' + "\n";
+			}
+			email += Constants.DISCONNECT + '\n';
+			return email;
 		}
-		email += '\n';
-		email += body + "\n\n";
-		email += Constants.DISCONNECT + '\n';
-		return email;
 	}
 	
 	/**
@@ -79,14 +90,16 @@ public class Email {
 	 * @param emailAddress - String of the emailAddresses
 	 * @throws Exception - If there is a validation issue it will throw an exception with the message of the issue
 	 */
-	public Email(String body, String emailAddresses) throws Exception {
+	public Email(String body, String emailAddresses, boolean chatFormat) throws Exception {
 		ArrayList<String> validEmailAddressesList = new ArrayList<String>();
 		ArrayList<String> invalidEmailAddressesList = new ArrayList<String>();
+		
 		if(utils.checkForValidBody(body)) {
 			this.setBody(body);
 		} else {
 			throw new Exception(invalidBodyMessage(body));
 		}
+		
 		ArrayList<String> emailAddressList = utils.checkForMultipleEmailAddresses(emailAddresses);
 		if(emailAddressList.size() > 0) {
 			for(String emailAddress : emailAddressList) {
@@ -102,6 +115,8 @@ public class Email {
 			this.setEmailAddresses(emailAddressList);
 			}
 		}
+		
+		setChatFormat(chatFormat);
 	}
 
 	public ArrayList<String> getEmailAddresses() {
@@ -118,6 +133,14 @@ public class Email {
 
 	public void setBody(String body) {
 		this.body = body;
+	}
+
+	public boolean getChatFormat() {
+		return chatFormat;
+	}
+
+	public void setChatFormat(boolean chatFormat) {
+		this.chatFormat = chatFormat;
 	}
 	
 }
