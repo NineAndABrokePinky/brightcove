@@ -5,7 +5,7 @@ package net.messaging;
 
 /**
  * @author joseph.edwards
- *
+ * Constants class
  */
 public class Constants {
 	
