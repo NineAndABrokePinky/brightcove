@@ -42,22 +42,26 @@ public class Main {
 
 	public static void main(String... args) throws IOException {
 		String emailAddresses, body;
-	    	setNetwork(new StringWriter());
-	    	setConsole(new StringWriter());
 	   
 	    	try {
 		    	emailAddresses= args[0];
 		    	body= args[1];
 	    		boolean chatFormat = false;
+	    		
 	    		if (args[0] == "-im") {
 	    			chatFormat = true;
 	   	    	 	emailAddresses= args[1];
 	   	    	 	body= args[2];
 	    		}
+	    		
 	    		Email email = new Email(body, emailAddresses, chatFormat);
 	    		getNetwork().write(email.createMessage(email.getEmailAddresses(), email.getBody(), email.getChatFormat()));
 	    	} catch (Exception e) {
+	    		if(e instanceof IOException) {
+	    			getConsole().write("Connection error. Please try again." + '\n');
+	    		} else {
 			getConsole().write(e.getMessage());
+	    		}
 		}
 			
 }

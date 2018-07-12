@@ -15,16 +15,12 @@ public class Email {
 	private String body;
 	private ArrayList<String> emailAddresses;
 	private boolean chatFormat;
-	/**
-	 * Empty Constructor
-	 */
-	private Email() {
-	}
 	
 	/**
 	 * This will construct the email that will be written to the StringBuffer
 	 * @param emailAddress - String of the emailAddress to be sent to
 	 * @param body - String of the message that will be sent in the email
+	 * @param chatFormat - boolean value to change the format from email to chat
 	 * @return String of the email to be sent
 	 * @throws IOException - In case of StringWriter not being initialized
 	 */
@@ -88,6 +84,7 @@ public class Email {
 	 * Constructor for the email object that does the validation
 	 * @param body - String of the emails body
 	 * @param emailAddress - String of the emailAddresses
+	 * @param chatFormat - boolean value to set the format to either email or chat
 	 * @throws Exception - If there is a validation issue it will throw an exception with the message of the issue
 	 */
 	public Email(String body, String emailAddresses, boolean chatFormat) throws Exception {
@@ -118,6 +115,11 @@ public class Email {
 		
 		setChatFormat(chatFormat);
 	}
+	
+	/**
+	 * Getter/Setters for class properties
+	 * @return
+	 */
 
 	public ArrayList<String> getEmailAddresses() {
 		return emailAddresses;

@@ -96,11 +96,11 @@ public class EndToEndTest {
     }
 
     private void networkShouldReceive(String output) {
-        assertThat(Main.getNetwork().toString(), equalTo(output));
+        assertThat(network.toString(), equalTo(output));
     }
 
     private void consoleShouldReceive(String output) {
-        assertThat(Main.getConsole().toString(), equalTo(output));
+        assertThat(console.toString(), equalTo(output));
     }
 
     private static class BadNetworkConnection extends Writer {
