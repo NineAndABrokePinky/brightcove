@@ -18,11 +18,12 @@ public class Email extends Message {
 	 * @param chatFormat - boolean value to change the format from email to chat
 	 * @return String of the email to be sent
 	 */
+	@Override
 	public String createMessage(ArrayList<String> emailAddresses, String body) {
-		String email = "";
+			String email = "";
 			email += Constants.EMAIL_CONNECTION_HEADER + '\n';
 			for(String emailAddress : emailAddresses) {
-			email += Constants.PREFIX_TO + emailAddress + "\n";
+				email += Constants.PREFIX_TO + emailAddress + "\n";
 			}
 			email += '\n';
 			email += body + "\n\n";

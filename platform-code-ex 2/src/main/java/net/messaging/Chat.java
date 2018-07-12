@@ -18,8 +18,8 @@ public class Chat extends Message{
 		String email = "";
 		email += Constants.CHAT_CONNECTION_HEADER + '\n';
 		for(String emailAddress : emailAddresses) {
-		email += '<' + emailAddress+ '>';
-		email += '(' + body + ')' + "\n";
+			email += '<' + emailAddress+ '>';
+			email += '(' + body + ')' + "\n";
 		}
 		email += Constants.DISCONNECT + '\n';
 		return email;

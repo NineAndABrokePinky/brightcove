@@ -46,16 +46,16 @@ public class Main {
 	    	try {
 		    	emailAddresses= args[0];
 		    	body= args[1];
-		    	Message email;
+		    	Message message;
 	    		
 	    		if (args[0] == "-im") {
 	   	    	 	emailAddresses= args[1];
 	   	    	 	body= args[2];
-	   	    	 	email = new Chat(body, emailAddresses);
+	   	    	 	message = new Chat(body, emailAddresses);
 	    		} else {
-	    			email = new Email(body, emailAddresses);
+	    			message = new Email(body, emailAddresses);
 	    		}
-	    		 getNetwork().write(email.createMessage(email.getEmailAddresses(), email.getBody()));
+	    		 getNetwork().write(message.createMessage(message.getEmailAddresses(), message.getBody()));
 	    	} catch (Exception e) {
 	    		if(e instanceof IOException) {
 	    			getConsole().write("Connection error. Please try again." + '\n');
