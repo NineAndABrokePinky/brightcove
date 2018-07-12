@@ -69,7 +69,7 @@ public class EndToEndTest {
     @Test public void betterErrorHandlingsForMultipleAddresses_story5() throws IOException {
         Main.main("sallyatexample.com,joeatexample.com", "Hi everyone!");
         networkShouldReceive(NO_OUTPUT);
-        consoleShouldReceive("Invalid email addresses: sallyatexample.com joeateasmple.com\n");
+        consoleShouldReceive("Invalid email addresses: sallyatexample.com, joeatexample.com\n");
     }
 
     @Test public void sendAMessageInAnotherFormat_story6() throws IOException {

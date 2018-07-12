@@ -44,10 +44,21 @@ public class Email {
 	 * @param email - String of the emailAddress that is invalid
 	 * @return String of the console to be logged
 	 */
-	private static String invalidEmailAddressMessage(String emailAddress) {
+	private static String invalidEmailAddressMessage(ArrayList<String> emailAddresses) {
 		String errorMessage = "";
+		if (emailAddresses.size() > 1) {
+			errorMessage += Constants.INVALID_EMAILADDRESSES;
+			for(int i = 0; i <  emailAddresses.size(); i++) {
+				errorMessage += emailAddresses.get(i);
+				if ((i+1) != emailAddresses.size()) {
+					errorMessage += ", ";
+				}
+			}
+		} else {
 		errorMessage += Constants.INVALID_EMAILADDRESS;
-		errorMessage += emailAddress + '\n';
+		errorMessage += emailAddresses.get(0);
+		}
+		errorMessage += '\n';
 		return errorMessage;
 	}
 	
@@ -69,6 +80,8 @@ public class Email {
 	 * @throws Exception - If there is a validation issue it will throw an exception with the message of the issue
 	 */
 	public Email(String body, String emailAddresses) throws Exception {
+		ArrayList<String> validEmailAddressesList = new ArrayList<String>();
+		ArrayList<String> invalidEmailAddressesList = new ArrayList<String>();
 		if(utils.checkForValidBody(body)) {
 			this.setBody(body);
 		} else {
@@ -76,13 +89,18 @@ public class Email {
 		}
 		ArrayList<String> emailAddressList = utils.checkForMultipleEmailAddresses(emailAddresses);
 		if(emailAddressList.size() > 0) {
-			ArrayList<String> emailAddressesList = new ArrayList<String>();
 			for(String emailAddress : emailAddressList) {
-				if (!utils.checkForValidEmail(emailAddress)) {
-					throw new Exception(invalidEmailAddressMessage(emailAddress));
+				if (utils.checkForValidEmail(emailAddress)) {
+					validEmailAddressesList.add(emailAddress);
+				} else {
+					invalidEmailAddressesList.add(emailAddress);
 				}
 			}
+			if(invalidEmailAddressesList.size() > 0) {
+				throw new Exception(invalidEmailAddressMessage(invalidEmailAddressesList));
+			} else {
 			this.setEmailAddresses(emailAddressList);
+			}
 		}
 	}
 
