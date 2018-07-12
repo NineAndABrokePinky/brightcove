@@ -3,6 +3,8 @@
  */
 package net.messaging;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,6 +48,19 @@ public class Utilities {
 			return true;
 		}
 		
+	}
+	
+	/**
+	 * Checks the string for multiple email addresses by parsing using a comma delimeter
+	 * @param emailAddresses - String of the possible emailAddresses
+	 * @return ArrayList of the possible emailAddresses
+	 */
+	public ArrayList<String> checkForMultipleEmailAddresses(String emailAddresses) {
+		if(emailAddresses == null || emailAddresses == "") {
+			return null;
+		}
+		ArrayList<String> emailAddressesArray = new ArrayList<>(Arrays.asList(emailAddresses.split(",")));
+		return emailAddressesArray;
 	}
 	
 }

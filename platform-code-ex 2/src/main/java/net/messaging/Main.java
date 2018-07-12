@@ -41,16 +41,15 @@ public class Main {
 	}
 
 	public static void main(String... args) throws IOException {
-	    	Utilities util = new Utilities();
 	    	
 	    	setNetwork(new StringWriter());
 	    	setConsole(new StringWriter());
 	    	
 	    	try {
 	    		Email email = new Email(args[1], args[0]);
-	    		getNetwork().write(email.createEmail(args[0], args[1]));
+	    		getNetwork().write(email.createEmail(email.getEmailAddresses(), email.getBody()));
 	    	} catch (Exception e) {
-				getConsole().write(e.getMessage());
+			getConsole().write(e.getMessage());
 		}
 			
 }
