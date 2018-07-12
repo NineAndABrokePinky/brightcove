@@ -46,23 +46,23 @@ public class Main {
 	    	try {
 		    	emailAddresses= args[0];
 		    	body= args[1];
-	    		boolean chatFormat = false;
+		    	Message email;
 	    		
 	    		if (args[0] == "-im") {
-	    			chatFormat = true;
 	   	    	 	emailAddresses= args[1];
 	   	    	 	body= args[2];
+	   	    	 	email = new Chat(body, emailAddresses);
+	    		} else {
+	    			email = new Email(body, emailAddresses);
 	    		}
-	    		
-	    		Email email = new Email(body, emailAddresses, chatFormat);
-	    		getNetwork().write(email.createMessage(email.getEmailAddresses(), email.getBody(), email.getChatFormat()));
+	    		 getNetwork().write(email.createMessage(email.getEmailAddresses(), email.getBody()));
 	    	} catch (Exception e) {
 	    		if(e instanceof IOException) {
 	    			getConsole().write("Connection error. Please try again." + '\n');
 	    		} else {
-			getConsole().write(e.getMessage());
+	    			getConsole().write(e.getMessage());
 	    		}
 		}
 			
-}
+	}
 }
