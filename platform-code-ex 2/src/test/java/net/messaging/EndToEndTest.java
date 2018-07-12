@@ -19,7 +19,7 @@ public class EndToEndTest {
         Main.setConsole(console);
     }
 
-    @Test public void sendAnEmail_story1() {
+    @Test public void sendAnEmail_story1() throws IOException {
         Main.main("joe@example.com", "Hi there!");
         networkShouldReceive("connect smtp\n" +
                 "To: joe@example.com\n" +
@@ -30,7 +30,7 @@ public class EndToEndTest {
         consoleShouldReceive(NO_OUTPUT);
     }
 
-    @Ignore @Test public void sendAnEmail_AnotherExample_story1() {
+    @Ignore @Test public void sendAnEmail_AnotherExample_story1() throws IOException {
         Main.main("sally@example.com", "Greetings.\nHow's it going?");
         networkShouldReceive("connect smtp\n" +
                 "To: sally@example.com\n" +
@@ -42,19 +42,19 @@ public class EndToEndTest {
         consoleShouldReceive(NO_OUTPUT);
     }
 
-    @Ignore @Test public void showAnErrorAndDoNotSendIfTheEmailAddressIsInvalid_story2() {
+    @Ignore @Test public void showAnErrorAndDoNotSendIfTheEmailAddressIsInvalid_story2() throws IOException {
         Main.main("noatsign", "Hi there!");
         networkShouldReceive(NO_OUTPUT);
         consoleShouldReceive("Invalid email address: noatsign\n");
     }
 
-    @Ignore @Test public void showAnErrorAndDoNotSendIfTheBodyIsInvalid_story3() {
+    @Ignore @Test public void showAnErrorAndDoNotSendIfTheBodyIsInvalid_story3() throws IOException {
         Main.main("dinah@example.com", "");
         networkShouldReceive(NO_OUTPUT);
         consoleShouldReceive("Cannot send an email with no body.\n");
     }
 
-    @Ignore @Test public void sendAnEmailToMultipleAddresses_story4() {
+    @Ignore @Test public void sendAnEmailToMultipleAddresses_story4() throws IOException {
         Main.main("sally@example.com,joe@example.com", "Hi everyone!");
         networkShouldReceive("connect smtp\n" +
                 "To: sally@example.com\n" +
@@ -66,13 +66,13 @@ public class EndToEndTest {
         consoleShouldReceive(NO_OUTPUT);
     }
 
-    @Ignore @Test public void betterErrorHandlingsForMultipleAddresses_story5() {
+    @Ignore @Test public void betterErrorHandlingsForMultipleAddresses_story5() throws IOException {
         Main.main("sallyatexample.com,joeatexample.com", "Hi everyone!");
         networkShouldReceive(NO_OUTPUT);
         consoleShouldReceive("Invalid email addresses: sallyatexample.com joeateasmple.com\n");
     }
 
-    @Ignore @Test public void sendAMessageInAnotherFormat_story6() {
+    @Ignore @Test public void sendAMessageInAnotherFormat_story6() throws IOException {
         Main.main("-im", "leslie@chat.example.com", ":-) hey there!");
         networkShouldReceive("connect chat\n" +
                 "<leslie@chat.example.com>(:-) hey there!)\n" +
@@ -80,7 +80,7 @@ public class EndToEndTest {
         consoleShouldReceive(NO_OUTPUT);
     }
 
-    @Ignore @Test public void chatsToMultipleAddressesGetSentIndividually_story7() {
+    @Ignore @Test public void chatsToMultipleAddressesGetSentIndividually_story7() throws IOException {
         Main.main("-im", "leslie@chat.example.com,joey@chat.example.com", "Hello.");
         networkShouldReceive("connect chat\n" +
                 "<leslie@chat.example.com>(Hello.)\n" +
@@ -89,18 +89,18 @@ public class EndToEndTest {
         consoleShouldReceive(NO_OUTPUT);
     }
 
-    @Ignore @Test public void handleErrorsGracefully_story8() {
+    @Ignore @Test public void handleErrorsGracefully_story8() throws IOException {
         Main.setNetwork(new BadNetworkConnection());
         Main.main("joe@example.com", "Hi there!");
         consoleShouldReceive("Connection error. Please try again.\n");
     }
 
     private void networkShouldReceive(String output) {
-        assertThat(network.toString(), equalTo(output));
+        assertThat(Main.getNetwork().toString(), equalTo(output));
     }
 
     private void consoleShouldReceive(String output) {
-        assertThat(console.toString(), equalTo(output));
+        assertThat(Main.getConsole().toString(), equalTo(output));
     }
 
     private static class BadNetworkConnection extends Writer {
